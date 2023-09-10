@@ -80,6 +80,7 @@ class _HomeState extends State<Home> {
                                 onPressed: () {
                                   setState(() {
                                     exercises.remove(exerciseName);
+                                    storeExercises();
                                   });
                                 },
                                 icon: const Icon(Icons.delete))
@@ -112,8 +113,11 @@ class _HomeState extends State<Home> {
   }
 
   void _handleExerciseAdded(String exerciseName) => setState(() {
-        exercises[exerciseName] = [];
-        storeExercises();
+        exerciseName = exerciseName.trim();
+        if (!exercises.containsKey(exerciseName)) {
+          exercises[exerciseName] = [];
+          storeExercises();
+        }
       });
 
   void _handleExerciseEdit(String exerciseName, List data) => setState(() {

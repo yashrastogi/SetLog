@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -88,6 +87,7 @@ class ViewExerciseState extends State<ViewExercise> {
                               onPressed: () {
                                 setState(() {
                                   widget.exerciseData.removeAt(index);
+                                  widget.onExerciseEdit(widget.exerciseName, widget.exerciseData);
                                 });
                               },
                               icon: const Icon(Icons.delete),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class ExerciseInputDialog extends StatefulWidget {
   const ExerciseInputDialog({super.key, required this.onExerciseAdded});
@@ -17,6 +18,8 @@ class _ExerciseInputDialogState extends State<ExerciseInputDialog> {
       title: const Text("Add Exercise"),
       content: TextField(
         controller: _exerciseController,
+        autofocus: true,
+        inputFormatters: [ProperCaseTextFormatter()],
         decoration: const InputDecoration(labelText: "Exercise Name"),
       ),
       actions: [
@@ -56,4 +59,13 @@ class _ExerciseInputDialogState extends State<ExerciseInputDialog> {
       ],
     );
   }
+}
+
+class ProperCaseTextFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) => newValue.copyWith(
+      text: newValue.text
+          .split(RegExp(r'\s+'))
+          .map((word) => word.isEmpty ? '' : word[0].toUpperCase() + word.substring(1))
+          .join(' '));
 }

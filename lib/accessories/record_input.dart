@@ -12,7 +12,6 @@ class RecordInputDialog extends StatefulWidget {
 class _RecordInputDialogState extends State<RecordInputDialog> {
   final TextEditingController _weightController = TextEditingController();
   final TextEditingController _repsController = TextEditingController();
-  
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +24,7 @@ class _RecordInputDialogState extends State<RecordInputDialog> {
             controller: _weightController,
             keyboardType: TextInputType.number,
             inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+            autofocus: true,
             decoration: const InputDecoration(labelText: "Enter Weight"),
           ),
           TextField(
@@ -74,4 +74,3 @@ class _RecordInputDialogState extends State<RecordInputDialog> {
     );
   }
 }
-
