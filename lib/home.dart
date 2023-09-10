@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'dart:math' hide log;
 import 'dart:developer';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:setlog/accessories/exercise_input.dart';
 import 'package:setlog/view_exercise.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,13 +16,37 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  Map exercises = {};
+  bool _showFab = true;
+  ScrollController controller = ScrollController();
+
   @override
   void initState() {
     super.initState();
+    controller.addListener(() {
+      if (controller.position.userScrollDirection == ScrollDirection.forward) {
+        setState(() {
+          _showFab = true;
+        });
+      } else if (controller.position.userScrollDirection == ScrollDirection.reverse) {
+        setState(() {
+          _showFab = false;
+        });
+      }
+    });
+
+    if (controller.hasClients) {
+      double totalHeight = controller.position.maxScrollExtent;
+      double viewportHeight = controller.position.viewportDimension;
+      if (totalHeight >= viewportHeight) {
+        // list is scrollable
+        setState(() {
+          _showFab = true;
+        });
+      }
+    }
     retrieveExercises();
   }
-
-  Map exercises = {};
 
   void retrieveExercises() async {
     Map retrievedExercises = {};
@@ -61,11 +87,12 @@ class _HomeState extends State<Home> {
           children: <Widget>[
             Expanded(
                 child: ListView.builder(
+                    controller: controller,
                     itemCount: exercises.length,
                     itemBuilder: (content, index) {
                       final exerciseName = exercises.keys.elementAt(index);
                       return MaterialButton(
-                        padding: const EdgeInsets.all(25),
+                        padding: const EdgeInsets.all(15),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -73,7 +100,7 @@ class _HomeState extends State<Home> {
                               children: [
                                 const Icon(Icons.fitness_center),
                                 const Padding(padding: EdgeInsets.symmetric(horizontal: 10)),
-                                Text(exerciseName, textScaleFactor: 1.3),
+                                Text(truncateText(exerciseName, 27), textScaleFactor: 1.2),
                               ],
                             ),
                             IconButton(
@@ -98,17 +125,19 @@ class _HomeState extends State<Home> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          showDialog(
-              context: context,
-              builder: (context) => ExerciseInputDialog(
-                    onExerciseAdded: _handleExerciseAdded,
-                  ));
-        },
-        tooltip: 'Add Exercise',
-        child: const Icon(Icons.playlist_add),
-      ),
+      floatingActionButton: _showFab
+          ? FloatingActionButton(
+              onPressed: () {
+                showDialog(
+                    context: context,
+                    builder: (context) => ExerciseInputDialog(
+                          onExerciseAdded: _handleExerciseAdded,
+                        ));
+              },
+              tooltip: 'Add Exercise',
+              child: const Icon(Icons.playlist_add),
+            )
+          : null,
     );
   }
 
@@ -124,4 +153,11 @@ class _HomeState extends State<Home> {
         exercises[exerciseName] = data;
         storeExercises();
       });
+}
+
+String truncateText(String text, int maxLength) {
+  if (text.length <= maxLength) {
+    return text;
+  }
+  return '${text.substring(0, maxLength)}...';
 }

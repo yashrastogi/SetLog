@@ -24,6 +24,8 @@ class ViewExerciseState extends State<ViewExercise> {
     List<FlSpot> data = [];
     int maxWeight = 0;
     int minWeight = 0;
+    bool showChart = widget.exerciseData.length > 1 ? true : false;
+
     for (int i = 0; i < widget.exerciseData.length; i++) {
       data.add(FlSpot(i + 0.0, widget.exerciseData[i][1][0] + 0.0));
       maxWeight = max(maxWeight, widget.exerciseData[i][1][0]);
@@ -47,26 +49,29 @@ class ViewExerciseState extends State<ViewExercise> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            AspectRatio(
-              aspectRatio: 5,
-              child: LineChart(
-                LineChartData(
-                  gridData: const FlGridData(show: false),
-                  titlesData: const FlTitlesData(show: false),
-                  minX: minWeight + 0.0,
-                  maxX: widget.exerciseData.length - 1.0,
-                  minY: 0,
-                  maxY: maxWeight * 1.7,
-                  borderData: FlBorderData(show: false),
-                  lineBarsData: [
-                    LineChartBarData(
-                      spots: data,
-                      isCurved: true,
-                      color: Theme.of(context).colorScheme.primary,
-                      dotData: const FlDotData(show: false),
-                      belowBarData: BarAreaData(show: true),
-                    ),
-                  ],
+            Visibility(
+              visible: showChart,
+              child: AspectRatio(
+                aspectRatio: 5,
+                child: LineChart(
+                  LineChartData(
+                    gridData: const FlGridData(show: false),
+                    titlesData: const FlTitlesData(show: false),
+                    minX: minWeight + 0.0,
+                    maxX: widget.exerciseData.length - 1.0,
+                    minY: 0,
+                    maxY: maxWeight * 1.7,
+                    borderData: FlBorderData(show: false),
+                    lineBarsData: [
+                      LineChartBarData(
+                        spots: data,
+                        isCurved: true,
+                        color: Theme.of(context).colorScheme.primary,
+                        dotData: const FlDotData(show: false),
+                        belowBarData: BarAreaData(show: true),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
