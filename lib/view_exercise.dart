@@ -19,8 +19,6 @@ class ViewExerciseState extends State<ViewExercise> {
   @override
   Widget build(BuildContext context) {
     String exerciseName = widget.exerciseName;
-
-    // Sample data for the chart
     List<FlSpot> data = [];
     int maxWeight = 0;
     int minWeight = 0;
@@ -57,10 +55,8 @@ class ViewExerciseState extends State<ViewExercise> {
                   LineChartData(
                     gridData: const FlGridData(show: false),
                     titlesData: const FlTitlesData(show: false),
-                    minX: minWeight + 0.0,
                     maxX: widget.exerciseData.length - 1.0,
-                    minY: 0,
-                    maxY: maxWeight * 1.7,
+                    maxY: maxWeight * 1.01,
                     borderData: FlBorderData(show: false),
                     lineBarsData: [
                       LineChartBarData(
