@@ -1,8 +1,9 @@
 import 'dart:convert';
-import 'dart:math' hide log;
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:setlog/accessories/exercise_input.dart';
 import 'package:setlog/view_exercise.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -18,6 +19,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   Map exercises = {};
   bool _showFab = true;
+  bool _isFABHeld = false;
   ScrollController controller = ScrollController();
 
   @override
@@ -126,16 +128,33 @@ class _HomeState extends State<Home> {
         ),
       ),
       floatingActionButton: _showFab
-          ? FloatingActionButton(
-              onPressed: () {
-                showDialog(
-                    context: context,
-                    builder: (context) => ExerciseInputDialog(
-                          onExerciseAdded: _handleExerciseAdded,
-                        ));
+          ? GestureDetector(
+              onLongPress: () {
+                Future.delayed(const Duration(seconds: 3), () {
+                  if (_isFABHeld) {
+                    Clipboard.setData(ClipboardData(text: jsonEncode(exercises)));
+                    Fluttertoast.showToast(msg: "Copied JSON to clipboard");
+                  }
+                });
+                setState(() {
+                  _isFABHeld = true;
+                });
               },
-              tooltip: 'Add Exercise',
-              child: const Icon(Icons.playlist_add),
+              onLongPressEnd: (details) {
+                setState(() {
+                  _isFABHeld = false;
+                });
+              },
+              child: FloatingActionButton(
+                onPressed: () {
+                  showDialog(
+                      context: context,
+                      builder: (context) => ExerciseInputDialog(
+                            onExerciseAdded: _handleExerciseAdded,
+                          ));
+                },
+                child: const Icon(Icons.playlist_add),
+              ),
             )
           : null,
     );
