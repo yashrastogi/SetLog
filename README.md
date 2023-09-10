@@ -1,16 +1,11 @@
-# setlog
+# SetLog
 
-A new Flutter project.
+The app to track your progressive overload.
 
-## Getting Started
+Simple Flutter app with a chart to visually see your progress.
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+<div class="inline-block">
+    <img src="./Shot1.PNG" width="200"/>
+    <img src="./Shot2.PNG" width="200"/>
+    <img src="./Shot3.PNG" width="200"/>
+</div>
