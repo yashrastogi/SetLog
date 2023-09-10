@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 
 class RecordInputDialog extends StatefulWidget {
   const RecordInputDialog({super.key, required this.onRecordAdded});
-  final void Function(int weight, int reps) onRecordAdded;
+  final void Function(double weight, int reps) onRecordAdded;
 
   @override
   State<RecordInputDialog> createState() => _RecordInputDialogState();
@@ -22,8 +22,8 @@ class _RecordInputDialogState extends State<RecordInputDialog> {
         children: [
           TextField(
             controller: _weightController,
-            keyboardType: TextInputType.number,
-            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+            keyboardType: const TextInputType.numberWithOptions(decimal: true),
+            inputFormatters: [DecimalTextFormatter()],
             autofocus: true,
             decoration: const InputDecoration(labelText: "Enter Weight"),
           ),
@@ -40,8 +40,8 @@ class _RecordInputDialogState extends State<RecordInputDialog> {
           Expanded(
             child: ElevatedButton(
               onPressed: () {
-                int weight = int.parse(_weightController.text);
-                int reps = int.parse(_repsController.text);
+                double weight = double.parse(_weightController.text);
+                int reps = int.parse(_repsController.text,);
                 if (_weightController.text.isNotEmpty && _repsController.text.isNotEmpty) {
                   widget.onRecordAdded(weight, reps);
                   Navigator.of(context).pop();
@@ -71,6 +71,30 @@ class _RecordInputDialogState extends State<RecordInputDialog> {
           ),
         ])
       ],
+    );
+  }
+}
+
+class DecimalTextFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
+    // Remove any characters that are not digits or a single decimal point
+    final filteredText = newValue.text.replaceAll(RegExp(r'[^\d.]'), '');
+
+    // Ensure that there is only one decimal point
+    final parts = filteredText.split('.');
+    if (parts.length > 2) {
+      return oldValue; // Reject the change if there are multiple decimal points
+    }
+
+    // Limit the number of decimal places to two
+    if (parts.length == 2 && parts[1].length > 1) {
+      return oldValue; // Reject the change if there are more than two decimal places
+    }
+
+    return newValue.copyWith(
+      text: filteredText,
+      selection: TextSelection.collapsed(offset: filteredText.length),
     );
   }
 }

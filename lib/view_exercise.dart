@@ -20,8 +20,8 @@ class ViewExerciseState extends State<ViewExercise> {
   Widget build(BuildContext context) {
     String exerciseName = widget.exerciseName;
     List<FlSpot> data = [];
-    int maxWeight = 0;
-    int minWeight = 0;
+    double maxWeight = 0;
+    double minWeight = 0;
     bool showChart = widget.exerciseData.length > 1 ? true : false;
 
     for (int i = 0; i < widget.exerciseData.length; i++) {
@@ -108,7 +108,7 @@ class ViewExerciseState extends State<ViewExercise> {
     );
   }
 
-  void _handleRecordAdded(int weight, int reps) {
+  void _handleRecordAdded(double weight, int reps) {
     final DateTime now = DateTime.now();
     setState(() {
       widget.exerciseData.add([

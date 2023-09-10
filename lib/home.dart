@@ -130,7 +130,7 @@ class _HomeState extends State<Home> {
       floatingActionButton: _showFab
           ? GestureDetector(
               onLongPress: () {
-                Future.delayed(const Duration(seconds: 3), () {
+                Future.delayed(const Duration(seconds: 2), () {
                   if (_isFABHeld) {
                     Clipboard.setData(ClipboardData(text: jsonEncode(exercises)));
                     Fluttertoast.showToast(msg: "Copied JSON to clipboard");
