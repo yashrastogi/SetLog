@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -76,3 +74,4 @@ class _RecordInputDialogState extends State<RecordInputDialog> {
     );
   }
 }
+
