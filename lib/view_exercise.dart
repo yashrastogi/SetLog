@@ -18,17 +18,13 @@ class ViewExercise extends StatefulWidget {
 class ViewExerciseState extends State<ViewExercise> {
   @override
   Widget build(BuildContext context) {
-    String exerciseName = widget.exerciseName;
-    List<FlSpot> data = [];
-    double maxWeight = 0;
-    double minWeight = 0;
-    bool showChart = widget.exerciseData.length > 1 ? true : false;
-
-    for (int i = 0; i < widget.exerciseData.length; i++) {
-      data.add(FlSpot(i + 0.0, widget.exerciseData[i][1][0] + 0.0));
-      maxWeight = max(maxWeight, widget.exerciseData[i][1][0]);
-      minWeight = min(minWeight, widget.exerciseData[i][1][0]);
-    }
+    final exerciseName = widget.exerciseName;
+    final data = List<FlSpot>.generate(
+      widget.exerciseData.length,
+      (index) => FlSpot(index.toDouble(), widget.exerciseData[index][1][0].toDouble()),
+    );
+    final maxWeight = data.isNotEmpty ? data.map((spot) => spot.y).reduce(max) : 0;
+    final showChart = widget.exerciseData.length > 1;
 
     return Scaffold(
       floatingActionButton: FloatingActionButton(
@@ -47,15 +43,14 @@ class ViewExerciseState extends State<ViewExercise> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Visibility(
-              visible: showChart,
-              child: AspectRatio(
-                aspectRatio: 5,
+            if (showChart)
+              AspectRatio(
+                aspectRatio: 3,
                 child: LineChart(
                   LineChartData(
                     gridData: const FlGridData(show: false),
                     titlesData: const FlTitlesData(show: false),
-                    maxX: widget.exerciseData.length - 1.0,
+                    maxX: widget.exerciseData.length - 1,
                     maxY: maxWeight * 1.01,
                     borderData: FlBorderData(show: false),
                     lineBarsData: [
@@ -70,12 +65,12 @@ class ViewExerciseState extends State<ViewExercise> {
                   ),
                 ),
               ),
-            ),
             Expanded(
               child: ListView.builder(
                 itemCount: widget.exerciseData.length,
                 itemBuilder: (context, index) {
-                  final exerciseEntry = widget.exerciseData[index];
+                  int len = widget.exerciseData.length;
+                  final exerciseEntry = widget.exerciseData[len - 1 - index];
                   return Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -83,11 +78,11 @@ class ViewExerciseState extends State<ViewExercise> {
                         title: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(DateFormat('d/M/y').format(DateTime.parse(exerciseEntry[0]))),
+                            Text(DateFormat('d/M/y - hh:mm a').format(DateTime.parse(exerciseEntry[0]))),
                             IconButton(
                               onPressed: () {
                                 setState(() {
-                                  widget.exerciseData.removeAt(index);
+                                  widget.exerciseData.removeAt(len - 1 - index);
                                   widget.onExerciseEdit(widget.exerciseName, widget.exerciseData);
                                 });
                               },

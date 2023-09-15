@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:setlog/accessories/exercise_input.dart';
 import 'package:setlog/view_exercise.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -133,7 +133,7 @@ class _HomeState extends State<Home> {
                 Future.delayed(const Duration(seconds: 2), () {
                   if (_isFABHeld) {
                     Clipboard.setData(ClipboardData(text: jsonEncode(exercises)));
-                    Fluttertoast.showToast(msg: "Copied JSON to clipboard");
+                    showToast("Copied JSON to clipboard", context: context);
                   }
                 });
                 setState(() {

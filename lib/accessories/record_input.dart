@@ -50,12 +50,11 @@ class _RecordInputDialogState extends State<RecordInputDialog> {
               child: const Row(
                 children: [
                   Icon(Icons.add_circle_outline),
-                  Text("Add"),
+                  Flexible(child: Text("Add")),
                 ],
               ),
             ),
           ),
-          const Padding(padding: EdgeInsets.symmetric(horizontal: 5)),
           Expanded(
             child: ElevatedButton(
               onPressed: () {
@@ -64,7 +63,7 @@ class _RecordInputDialogState extends State<RecordInputDialog> {
               child: const Row(
                 children: [
                   Icon(Icons.cancel_outlined),
-                  Text("Cancel"),
+                  Flexible(child: Text("Cancel")),
                 ],
               ),
             ),
