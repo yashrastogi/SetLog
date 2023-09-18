@@ -23,40 +23,38 @@ class _ExerciseInputDialogState extends State<ExerciseInputDialog> {
         decoration: const InputDecoration(labelText: "Exercise Name"),
       ),
       actions: [
-        Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: ElevatedButton(
-                  onPressed: () {
-                    String exerciseName = _exerciseController.text;
-                    if (exerciseName.isNotEmpty) {
-                      widget.onExerciseAdded(exerciseName);
-                      Navigator.of(context).pop();
-                    }
-                  },
-                  child: const Row(
-                    children: [
-                      Icon(Icons.add_circle_outline),
-                      Flexible(child: Text("Add")),
-                    ],
-                  ),
-                ),
+        Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+          Expanded(
+            child: ElevatedButton(
+              onPressed: () {
+                String exerciseName = _exerciseController.text;
+                if (exerciseName.isNotEmpty) {
+                  widget.onExerciseAdded(exerciseName);
+                  Navigator.of(context).pop();
+                }
+              },
+              child: const Row(
+                children: [
+                  Icon(Icons.add_circle_outline),
+                  Flexible(child: Text("Add")),
+                ],
               ),
-              Expanded(
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: const Row(
-                    children: [
-                      Icon(Icons.cancel_outlined),
-                      Flexible(child: Text("Cancel")),
-                    ],
-                  ),
-                ),
+            ),
+          ),
+          Expanded(
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Row(
+                children: [
+                  Icon(Icons.cancel_outlined),
+                  Flexible(child: Text("Cancel")),
+                ],
               ),
-            ])
+            ),
+          ),
+        ])
       ],
     );
   }

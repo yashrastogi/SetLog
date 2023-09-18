@@ -5,6 +5,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:setlog/accessories/exercise_input.dart';
+import 'package:setlog/accessories/one_rm_calculator.dart';
 import 'package:setlog/view_exercise.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -81,7 +82,22 @@ class _HomeState extends State<Home> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(widget.title),
+            Expanded(
+                child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+              MaterialButton(
+                  onPressed: () =>
+                      {Navigator.of(context).push(MaterialPageRoute(builder: (context) => const OneRMCalculatorScreen()))},
+                  child: const Row(children: [
+                    Icon(Icons.calculate),
+                    Text(" 1RM"),
+                  ]))
+            ]))
+          ],
+        ),
       ),
       body: Center(
         child: Column(
