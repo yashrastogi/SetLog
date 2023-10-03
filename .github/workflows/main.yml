@@ -1,4 +1,4 @@
-name: SetLog
+name: Build and deploy SetLog web
 on:
   push:
     branches:
@@ -15,14 +15,13 @@ jobs:
         with:
           channel: 'stable'
       - run: flutter pub get
-      - run: flutter build web --release --base-href="/SetLog/" --web-renderer canvaskit
+      - run: flutter build web --release --base-href="/SetLog/"
       - run: |
           cd build/web
           git init
           git config --global user.email yashrastogi@gmail.com
           git config --global user.name Yash
           git status
-          # change this remote url for examle your remote url is https://github.com/onatcipli/flutter_web.git then the following:
           git remote add origin https://${{secrets.commit_secret}}@github.com/yashrastogi/SetLog.git
           git checkout -b gh-pages
           git add --all
