@@ -89,8 +89,10 @@ class _HomeState extends State<Home> {
             Expanded(
                 child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
               MaterialButton(
-                  onPressed: () =>
-                      {Navigator.of(context).push(MaterialPageRoute(builder: (context) => const OneRMCalculatorScreen()))},
+                  onPressed: () => {
+                        Navigator.of(context)
+                            .push(MaterialPageRoute(builder: (context) => const OneRMCalculatorScreen()))
+                      },
                   child: const Row(children: [
                     Icon(Icons.calculate),
                     Text(" 1RM"),

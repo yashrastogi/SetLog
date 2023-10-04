@@ -77,7 +77,7 @@ class _OneRMCalculatorScreenState extends State<OneRMCalculatorScreen> {
 
     if (weight > 0 && reps > 0) {
       repMaxes.clear();
-      for (var i in [1, 2, 4, 6, 8, 10]) {
+      for (var i in [1, 2, 3, 4, 5, 6, 7, 8, 10, 12]) {
         repMaxes.add([i, oneRMCalculator(weight, reps, i)]);
       }
       setState(() {});
@@ -88,8 +88,11 @@ class _OneRMCalculatorScreenState extends State<OneRMCalculatorScreen> {
     Map<int, double> weights = {
       1: 1,
       2: 0.95,
+      3: 0.925,
       4: 0.9,
+      5: 0.875,
       6: 0.85,
+      7: 0.825,
       8: 0.8,
       10: 0.75,
       12: 0.7,
